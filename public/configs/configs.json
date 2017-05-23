@@ -1,0 +1,10 @@
+{
+  "SAVEPATH":"public/savepath/",
+  "TASKMAX":5,
+  "STATUS":{
+    "RUNNING":1,
+    "PAUSE":2,
+    "END":3,
+    "ERR":4
+  }
+}
