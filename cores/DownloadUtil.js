@@ -71,6 +71,7 @@ function DownloadBean(info) {
         var endCallback = function() {
             log.writeLogMsg('下载任务['+common.taskList[info.index].info.index+':'+common.taskList[info.index].info.taskName+']已下载完成并结束！:');
             common.taskList[info.index].info.status = common.configs.STATUS.END;
+            delete common.taskList[info.index];
             common.taskList[info.index].infoOpr();
         };
         var abortCallback = function() {
@@ -150,3 +151,34 @@ var createTask = function (taskName, downloadPath, fileName) {
     operBean.start();
 }
 
+//开始暂停中的任务
+var startTask = function(index) {
+    common.downloadInfo.forEach(function(item) {
+        if(item.index == index) {
+            var progress = Math.round(fs.statSync(item.filePath + item.fileName).size/item.allSize*10000)/100.00+'%';
+            var obj = new DownloadInfoBean(item.index, item.taskName, item.downloadPath, item.filePath, item.fileName, item.status, item.size, item.allSize, progress, item.createDate);
+            var operBean = new DownloadBean(obj);
+            operBean.start();
+            return;
+        }
+    });
+}
+
+exports.createTask = createTask;
+
+exports.startTask = startTask;
+
+/***********TEST***********/
+function test() {
+    var testObj = {};
+
+    testObj["name"] = "testName";
+
+    testObj["num"] = "123456";
+
+    console.log(testObj["name"]);
+
+    delete testObj["name"];
+
+    console.log(testObj["name"]);
+}
