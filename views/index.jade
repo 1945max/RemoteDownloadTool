@@ -16,6 +16,46 @@ html
         div(class="navbar-header")
           a(class="navbar-brand") RemoteDownloadTool
         div
-          button(type="button" class="btn btn-success navbar-btn") 新增任务
+          button(type="button" class="btn btn-success navbar-btn")
+            span(class="glyphicon glyphicon-plus")
+            &nbsp;新增任务
           label &nbsp;&nbsp;&nbsp;&nbsp;
-          button(type="button" class="btn btn-primary navbar-btn") 修改配置
+          button(type="button" class="btn btn-primary navbar-btn")
+            span(class="glyphicon glyphicon-cog")
+            &nbsp;修改配置
+    - for (var key in listInfo)
+      - var src = listInfo[key].downloadPath;
+      - var progress = listInfo[key].progress
+      - var index = listInfo[key].taskName;
+      div(class='panel panel-default')
+        div(class='panel-heading')
+          label
+            h3(class='panel-title') #{listInfo[key].taskName}
+        div(class='panel-body')
+         p
+            label(class='label label-success') 文件
+          h5 #{listInfo[key].fileName}
+         p
+           label(class='label label-success') 路径
+           h5 #{listInfo[key].filePath}
+         p
+           label(class='label label-success') 下载地址
+           h5
+            a(href='' + src) #{listInfo[key].url}
+         p
+           label(class='label label-success') 下载状态
+           h5(id='state' + index) #{listInfo[key].state}
+          p
+           label(class='label label-success') 容量/总容量
+           h5(id='size' + index) #{listInfo[key].size}/#{listInfo[key].allSize}
+         p
+           label(class='label label-success') 进度
+           div(class="progress progress-striped")
+              div(class="progress-bar" role="progressbar" aria-valuenow="60"
+              aria-valuemin="0" aria-valuemax="100" style="width: " + progress + ";" id="progress" + index)
+         p
+           label(class='label label-success') 创建日期
+           h5 #{listInfo[key].createdDate}
+         button(class='btn btn-primary') 暂停
+         label &nbsp;&nbsp;
+         button(class='btn btn-danger') 删除
