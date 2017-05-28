@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var addTask = require('./routes/addTask');
 
 var app = express();
 
@@ -22,10 +23,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //加入核心公共参数对象的静态实现
-app.use(express.static(path.join(__dirname, 'cores')));
+// app.use(express.static(path.join(__dirname, 'cores')));
 
 app.use('/', index);
+app.use('/getCurrentInfo', index);
 app.use('/users', users);
+app.use('/addTask', addTask);
+app.use('/addTask/createTask', addTask);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,22 +1,12 @@
-doctype html
-html
-  head
-    title RemoteDownloadTool
-    meta(charset='utf-8')
-    meta(http-equiv="X-UA-Compatible" content="IE=edge")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    link(href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet")
-    link(href="/stylesheets/style.css" rel="stylesheet")
-    script(src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap-theme.min.css")
-    script(src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js")
-    script(src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js")
-  body
+extends common
+
+block content
     nav(class="navbar navbar-inverse" role="navigation" style="border-radius:0;")
       div(class="container-fluid")
         div(class="navbar-header")
           a(class="navbar-brand") RemoteDownloadTool
         div
-          button(type="button" class="btn btn-success navbar-btn")
+          button(type="button" class="btn btn-success navbar-btn" onclick="javascript: location.href='/addTask'")
             span(class="glyphicon glyphicon-plus")
             &nbsp;新增任务
           label &nbsp;&nbsp;&nbsp;&nbsp;

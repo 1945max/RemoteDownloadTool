@@ -11,9 +11,16 @@ var downloadUtil = require("../cores/DownloadUtil.js");
 var getCurrentTaskListInfo = function() {
     var taskList = common.downloadInfo;
     taskList.forEach(function(item) {
-        item.status = common.statusCode[item.status];
-        item.size = fs.statSync(common.configs.SAVEPATH + item.fileName).size;
-        item.progress = Math.round(fs.statSync(common.configs.SAVEPATH + item.fileName).size/this.allSize*10000)/100.00+'%';
+        var stateInfo = fs.statSync(common.configs.SAVEPATH + item.fileName);
+        if(stateInfo) {
+            item.status = common.statusCode[item.status];
+            item.size = stateInfo.size;
+            item.progress = Math.round(stateInfo.size/this.allSize*10000)/100.00+'%';
+        } else {
+            item.status = common.statusCode[1];
+            item.size = 0;
+            item.progress = '0.00%';
+        }
     });
     return taskList;
 }

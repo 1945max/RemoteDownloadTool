@@ -5,9 +5,9 @@
 var fs = require("fs");
 
 //配置文件地址
-var configsPath = "../public/configs/configs.json";
+var configsPath = "public/configs/configs.json";
 
-var downloadInfoPath = "../public/dbs/dbs.json";
+var downloadInfoPath = "public/dbs/dbs.json";
 
 //读取配置文件
 var readConfigs = function() {

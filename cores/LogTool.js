@@ -4,7 +4,7 @@
  */
 var fs = require("fs");
 
-var logPath = "../public/log.log";
+var logPath = "public/log.log";
 
 var writeLogMsg = function(msg) {
     var myDate = new Date();

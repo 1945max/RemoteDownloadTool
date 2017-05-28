@@ -1,0 +1,28 @@
+extends common
+
+block content
+    nav(class="navbar navbar-inverse" role="navigation" style="border-radius:0;")
+        div(class="container-fluid")
+            div(class="navbar-header")
+                a(class="navbar-brand") RemoteDownloadTool
+    div(class='panel panel-default')
+        div(class='panel-heading')
+            label
+                h3(class='panel-title') 新增下载任务
+        div(class='panel-body')
+            form(role="form" method="post" action="/addTask/createTask")
+                div(class="form-group")
+                    label(for="taskName") 任务名
+                    input(type="text" class="form-control" id="taskName" name="taskName" placeholder="请输入任务名")
+                div(class="form-group")
+                    label(for="downloadPath") 下载地址
+                    input(type="text" class="form-control" id="downloadPath" name="downloadPath" placeholder="请输入下载地址")
+                div(class="form-group")
+                    label(for="fileName") 保存文件名
+                    input(type="text" class="form-control" id="fileName" name="fileName" placeholder="请输入保存文件名")
+                div(class="form-group")
+                    button(type="submit" class="btn btn-success") 提交
+                    label &nbsp;&nbsp;
+                    button(type="reset" class="btn btn-primary") 重置
+                    label &nbsp;&nbsp;
+                    button(type="button" class="btn btn-danger" onclick="javascript:location.href = '/'") 取消
