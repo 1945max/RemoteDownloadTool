@@ -27,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/getCurrentInfo', index);
+app.use('/run', index);
+app.use('/pause', index);
 app.use('/users', users);
 app.use('/addTask', addTask);
 app.use('/addTask/createTask', addTask);

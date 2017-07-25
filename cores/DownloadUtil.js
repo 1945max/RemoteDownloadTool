@@ -56,14 +56,14 @@ function DownloadBean(info) {
     //初始化下载信息并开始下载
     this.start = function() {
         common.taskList[this.info.index] = this;
-        if(0 != this.info.allSize.length) {
-            log.writeLogMsg('下载任务['+this.info.index+':'+this.info.taskName+']继续下载！');
-        } else {
+        if(0 < this.info.allSize) {
             log.writeLogMsg('下载任务['+this.info.index+':'+this.info.taskName+']开始下载！');
+        } else {
+            log.writeLogMsg('下载任务['+this.info.index+':'+this.info.taskName+']继续下载！');
         }
         var reqCallback = function(response) {
             log.writeLogMsg('当前请求数据总大小:'+response['headers']['content-length']);
-            if(0 == this.info.allSize.length) {
+            if(0 == common.taskList[info.index].info.allSize) {
                 common.taskList[info.index].info.allSize = response['headers']['content-length'];
                 common.taskList[info.index].infoOpr();
             }
@@ -71,14 +71,14 @@ function DownloadBean(info) {
         var endCallback = function() {
             log.writeLogMsg('下载任务['+common.taskList[info.index].info.index+':'+common.taskList[info.index].info.taskName+']已下载完成并结束！:');
             common.taskList[info.index].info.status = common.configs.STATUS.END;
-            delete common.taskList[info.index];
             common.taskList[info.index].infoOpr();
+            delete common.taskList[info.index];
         };
         var abortCallback = function() {
             log.writeLogMsg('下载任务['+common.taskList[info.index].info.index+':'+common.taskList[info.index].info.taskName+']已暂停下载！');
             common.taskList[info.index].info.status = common.configs.STATUS.PAUSE;
-            common.taskList[info.index].infoOpr();
         };
+        common.taskList[info.index].infoOpr();
         var options = this.createReqOptions();
         this.req = request(options[0]);
         this.req.on('response', reqCallback);
@@ -96,8 +96,8 @@ function DownloadBean(info) {
     this.infoOpr = function() {
         var info = createdDownloadInfo(this.info);
         for(var i = 0;i<common.downloadInfo.length;i++) {
-            if(common.downloadInfo[i].index = info.index) {
-                common.downloadInfo[i] = this.info;
+            if(common.downloadInfo[i].index == info.index) {
+                common.downloadInfo[i] = info;
             }
         }
         common.writeDownloadInfo();
@@ -107,12 +107,16 @@ function DownloadBean(info) {
     this.createReqOptions = function() {
         var options = [];
         var optionReq = {
-            url:this.downloadPath
+            url:this.info.downloadPath
         };
         var startSeq = 0;
         var option={};
-        if(0 != this.info.allSize.length) {
-            startSeq = fs.statSync(common.configs.SAVEPATH + this.info.fileName).size;
+        if(0 < this.info.allSize) {
+            if(fs.existsSync(common.configs.SAVEPATH + this.info.fileName)) {
+                startSeq = fs.statSync(common.configs.SAVEPATH + this.info.fileName).size;
+            } else {
+                startSeq = 0;
+            }
             optionReq.headers = {'Range':'bytes='+startSeq+'-'};
             option = {flags:'r+', start:startSeq};
         }
@@ -133,7 +137,7 @@ var createdDownloadInfo = function(obj) {
         status:obj.status,
         size:obj.size,
         allSize:obj.allSize,
-        progress:obj.progress,
+        progress:obj.progress?obj.progress:'0.00%',
         createDate:obj.createDate
     }
     return info;
@@ -164,9 +168,25 @@ var startTask = function(index) {
     });
 }
 
+var delTask = function(index) {
+    for(var i = 0;i<common.downloadInfo.length;i++) {
+        var obj = common.downloadInfo[i];
+        if(obj.index == index) {
+            if(fs.existsSync(obj.filePath + obj.fileName)) {
+                fs.unlinkSync(obj.filePath + obj.fileName);
+            }
+            common.downloadInfo.splice(i-1,1);
+            common.writeDownloadInfo();
+            return;
+        }
+    }
+}
+
 exports.createTask = createTask;
 
 exports.startTask = startTask;
+
+exports.delTask = delTask;
 
 /***********TEST***********/
 function test() {

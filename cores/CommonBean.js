@@ -53,7 +53,7 @@ var checkRepeat = function(obj) {
 }
 
 var statusCode = {
-    1:"下载中",2:"暂停中",3:"下载完成",4:"下载错误"
+    0:"文件不存在或已被移除",1:"下载中",2:"暂停中",3:"下载完成",4:"下载错误"
 };
 
 //运行中的任务对象队列
@@ -78,7 +78,7 @@ exports.checkRepeat = checkRepeat;
 exports.statusCode = statusCode;
 
 /********TEST********/
-checkRepeat({infos:"sdfrsadf"});
+//checkRepeat({infos:"sdfrsadf"});
 
 
 

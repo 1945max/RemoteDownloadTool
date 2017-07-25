@@ -21,8 +21,16 @@ var startTask = function (index) {
     return true;
 }
 
+//删除任务操作
+var delTask= function(index) {
+    taskListService.delTask(index);
+    return true;
+}
+
 exports.taskListInfoContr = getCurrentTaskListInfo;
 
 exports.taskPauseContr = taskPause;
 
 exports.startTaskContr = startTask;
+
+exports.delTaskContr = delTask;

@@ -1,5 +1,5 @@
 {
-  "SAVEPATH":"../public/savepath/",
+  "SAVEPATH":"public/savepath/",
   "TASKMAX":5,
   "STATUS":{
     "RUNNING":1,

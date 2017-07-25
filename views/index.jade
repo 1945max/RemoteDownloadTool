@@ -1,6 +1,8 @@
 extends common
 
 block content
+    script(src="http://code.jquery.com/jquery-latest.js")
+    script(src="/javascripts/index.js")
     nav(class="navbar navbar-inverse" role="navigation" style="border-radius:0;")
       div(class="container-fluid")
         div(class="navbar-header")
@@ -17,7 +19,8 @@ block content
       - var src = listInfo[key].downloadPath;
       - var progress = listInfo[key].progress
       - var index = listInfo[key].taskName;
-      div(class='panel panel-default')
+      - var id = listInfo[key].index;
+      div(class='panel panel-default' id='panel'+ id)
         div(class='panel-heading')
           label
             h3(class='panel-title') #{listInfo[key].taskName}
@@ -31,10 +34,10 @@ block content
          p
            label(class='label label-success') 下载地址
            h5
-            a(href='' + src) #{listInfo[key].url}
+            a(href='' + src) #{listInfo[key].downloadPath}
          p
            label(class='label label-success') 下载状态
-           h5(id='state' + index) #{listInfo[key].state}
+           h5(id='state' + index) #{listInfo[key].status}
           p
            label(class='label label-success') 容量/总容量
            h5(id='size' + index) #{listInfo[key].size}/#{listInfo[key].allSize}
@@ -45,7 +48,7 @@ block content
               aria-valuemin="0" aria-valuemax="100" style="width: " + progress + ";" id="progress" + index)
          p
            label(class='label label-success') 创建日期
-           h5 #{listInfo[key].createdDate}
-         button(class='btn btn-primary') 暂停
+           h5 #{listInfo[key].createDate}
+         button(class='btn btn-primary' type='button' id='runOrPauseBtn' name='0' onclick='javascript:runOrPause("'+id+'");') 暂停
          label &nbsp;&nbsp;
-         button(class='btn btn-danger') 删除
+         button(class='btn btn-danger' type='button' id='delBtn' onclick='javascript:del("'+id+'");') 删除
